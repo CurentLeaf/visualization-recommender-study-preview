@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: CurentLeaf/adaptive-visualization-recommender
-          ref: cd5a0cba138a7a864790acfa9c63ed3886ae2936
+          ref: 7c77f1b58929cbb29a693529de99ad9331d6160d
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
@@ -25,24 +25,11 @@ jobs:
       - run: npm ci
       - run: npm ci
         working-directory: study
-      - name: Correct React declaration mappings for pinned snapshot
-        working-directory: study
-        run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const config = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
-          Object.assign(config.compilerOptions.paths, {
-            'react': ['./node_modules/@types/react/index.d.ts'],
-            'react/*': ['./node_modules/@types/react/*'],
-            'react-dom': ['./node_modules/@types/react-dom/index.d.ts'],
-            'react-dom/*': ['./node_modules/@types/react-dom/*']
-          });
-          fs.writeFileSync('tsconfig.json', JSON.stringify(config, null, 2) + '\n');
-          NODE
       - run: npm run typecheck
         working-directory: study
       - run: npm test
         working-directory: study
+      - run: python3 -m unittest discover -s study/analysis
       - run: npm run build -- --base=/visualization-recommender-study-preview/
         working-directory: study
       - uses: actions/upload-pages-artifact@v3
