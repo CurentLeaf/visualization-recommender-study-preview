@@ -25,6 +25,20 @@ jobs:
       - run: npm ci
       - run: npm ci
         working-directory: study
+      - name: Correct React declaration mappings for pinned snapshot
+        working-directory: study
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const config = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+          Object.assign(config.compilerOptions.paths, {
+            'react': ['./node_modules/@types/react/index.d.ts'],
+            'react/*': ['./node_modules/@types/react/*'],
+            'react-dom': ['./node_modules/@types/react-dom/index.d.ts'],
+            'react-dom/*': ['./node_modules/@types/react-dom/*']
+          });
+          fs.writeFileSync('tsconfig.json', JSON.stringify(config, null, 2) + '\n');
+          NODE
       - run: npm run typecheck
         working-directory: study
       - run: npm test
