@@ -1,0 +1,46 @@
+name: Publish study preview
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: study-preview-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: CurentLeaf/adaptive-visualization-recommender
+          ref: cd5a0cba138a7a864790acfa9c63ed3886ae2936
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm ci
+        working-directory: study
+      - run: npm run typecheck
+        working-directory: study
+      - run: npm test
+        working-directory: study
+      - run: npm run build -- --base=/visualization-recommender-study-preview/
+        working-directory: study
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: study/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy preview
+        id: deployment
+        uses: actions/deploy-pages@v4
