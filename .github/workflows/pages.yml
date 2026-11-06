@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: CurentLeaf/adaptive-visualization-recommender
-          ref: 7f2722e786fa3d6d73e88492161c14c627d9d51a
+          ref: 4154d203393bd05f2482e2aabe4cc859b904e9a3
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:

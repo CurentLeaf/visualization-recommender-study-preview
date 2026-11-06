@@ -2,10 +2,8 @@
 
 Synthetic-data testing only. Not approved for live participant collection.
 
-This repository builds source snapshot 7c77f1b58929cbb29a693529de99ad9331d6160d from the study branch in CurentLeaf/adaptive-visualization-recommender. It does not merge that branch or change the original repository or website.
+This preview builds the refreshed study UI from CurentLeaf/adaptive-visualization-recommender, study branch, pinned to commit 4154d203393bd05f2482e2aabe4cc859b904e9a3 (UI revision rehearsal-2026.11.06.1).
 
-The preview runs the standalone pilot app. Full reVISit host integration and institution-approved participant collection are not enabled by this deployment.
+Open https://curentleaf.github.io/visualization-recommender-study-preview/ after the Publish study preview workflow succeeds. The standalone pilot includes guided progress, refreshed onboarding, evidence/response navigation, and accessible response controls. Full reVISit hosting and live participant collection are not enabled.
 
-Enable Settings > Pages > Build and deployment > Source: GitHub Actions in this preview repository. Inspect Actions > Publish study preview. Type checking, study tests, analysis tests, and build must pass before deployment. The deployment job reports the actual site URL.
-
-The source snapshot is pinned; subsequent study-branch changes require a reviewed snapshot update. The workflow does not patch source files or disable checks. Do not enter sensitive data or recruit participants through this preview.
+The workflow installs dependencies, type checks, runs study and analysis tests, builds with the preview repository base path, and deploys GitHub Pages. The source snapshot is pinned; later study-branch changes require updating the workflow ref. No changes are made to the original repository or its main website.
